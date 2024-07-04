@@ -1,0 +1,20 @@
+# Create the database
+db.create_all()
+db.session.commit()
+
+
+# Add a user who can login ('js' with password 'abc')
+from werkzeug.security import generate_password_hash
+u = User(username='js', email='js@b.com', password_hash = generate_password_hash('abc', salt_length=32))
+db.session.add(u)
+db.session.commit()
+
+
+# Add some students and loans
+s1 = Student(username='aps', firstname='Alan',lastname='Sexton', email='aps@b.com')
+s2 = Student(username='tj', firstname='Tom',lastname='Jones', email='tj@b.com')
+l1 = Loan(device_id=1, student=s1, borrowdatetime=datetime.now())
+l2 = Loan(device_id=1, student=s1, borrowdatetime=datetime(2024, 12, 25), returndatetime=datetime.now())
+l3 = Loan(device_id=2, student=s2, borrowdatetime=datetime(2024, 12, 25))
+db.session.add_all([s1, s2, l1, l2, l3])
+db.session.commit()
