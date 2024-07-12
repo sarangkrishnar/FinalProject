@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d91cb9f7-49a6-452f-9502-e0fc28954b18" name="Changes" comment="host trial 1 pythonanywhere" />
+    <list default="true" id="d91cb9f7-49a6-452f-9502-e0fc28954b18" name="Changes" comment="host trial 1 pythonanywhere">
+      <change beforePath="$PROJECT_DIR$/.flaskenv" beforeDir="false" afterPath="$PROJECT_DIR$/.flaskenv" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -124,7 +126,7 @@
       <updated>1720130082474</updated>
       <workItem from="1720130083771" duration="469000" />
       <workItem from="1720132664212" duration="3674000" />
-      <workItem from="1720562327157" duration="21729000" />
+      <workItem from="1720562327157" duration="22206000" />
     </task>
     <task id="LOCAL-00001" summary="commit1">
       <option name="closed" value="true" />
@@ -150,7 +152,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720783185787</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="host trial 1 pythonanywhere">
+      <option name="closed" value="true" />
+      <created>1720783246527</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1720783246527</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
