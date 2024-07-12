@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container m-3">
+        <div class="row justify-content-center">
+            {% for employee in employees %}
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <p class="card-text"><strong>Name:</strong> {{ employee.name }}</p>
+                            <p class="card-text"><strong>Employee ID:</strong> {{ employee.employee_id }}</p>
+                            <p class="card-text"><strong>Date of Joining:</strong> {{ employee.date_of_joining }}</p>
+                            <p class="card-text"><strong>Email:</strong> {{ employee.email }}</p>
+                            <p class="card-text"><strong>Current Role:</strong> {{ employee.current_role }}</p>
+                            <p class="card-text"><strong>Past Roles:</strong> {{ employee.past_roles }}</p>
+                            <p class="card-text"><strong>Skills:</strong> {{ employee.skills }}</p>
+                            <p class="card-text"><strong>Experience:</strong> {{ employee.experience }}</p>
+                            <p class="card-text"><strong>Educational
+                                Background:</strong> {{ employee.educational_background }}</p>
+                            <p class="card-text"><strong>Skill Points:</strong> {{ employee.skill_points }}</p>
+                            <p class="card-text"><strong>Achievement Badge:</strong> {{ employee.achievement_badge }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

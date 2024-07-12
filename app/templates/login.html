@@ -1,26 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form method="POST" action="" novalidate>
-    {{ form.hidden_tag() }}
-    <div>
-        {{ form.username.label }}<br/>{{ form.username(size=30) }}<br/>
-        {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
+    <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+        <form method="POST" action="" class="w-50" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="form-floating mb-3">
+                {{ form.username(class="form-control", id="floatingUsername", placeholder="Username", size=20) }}
+                {{ form.username.label(class="form-label", for="floatingUsername") }}
+                {% for error in form.username.errors %}
+                    <div class="text-danger small mt-1">[{{ error }}]</div>
+                {% endfor %}
+            </div>
+            <div class="form-floating mb-3">
+                {{ form.password(class="form-control", id="floatingPassword", placeholder="Password", size=20) }}
+                {{ form.password.label(class="form-label", for="floatingPassword") }}
+                {% for error in form.password.errors %}
+                    <div class="text-danger small mt-1">[{{ error }}]</div>
+                {% endfor %}
+            </div>
+            <div class="form-check mb-3">
+                {{ form.remember_me(class="form-check-input", id="rememberMe") }}
+                {{ form.remember_me.label(class="form-check-label", for="rememberMe") }}
+                {% for error in form.remember_me.errors %}
+                    <div class="text-danger small mt-1">[{{ error }}]</div>
+                {% endfor %}
+            </div>
+            <div class="d-grid">
+                {{ form.submit(class="btn btn-primary btn-block") }}
+            </div>
+        </form>
     </div>
-    <div>
-        {{ form.password.label }}<br/>{{ form.password(size=30) }}<br/>
-        {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </div>
-    <div>
-        {{ form.remember_me.label }}<br/>{{ form.remember_me() }}<br/>
-        {% for error in form.remember_me.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </div>
-    <div>{{ form.submit() }}</div>
-</form>
 {% endblock %}

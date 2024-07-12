@@ -1,0 +1,51 @@
+body {
+    font-family: 'EB Garamond', serif;
+    background-color: #f8f9fa;
+}
+
+.site-header {
+    margin-bottom: 20px;
+}
+
+.navbar {
+    padding: 0.5rem 1rem;
+}
+
+.navbar-nav .nav-link {
+    padding: 0.5rem 1rem;
+}
+
+.container {
+    max-width: 960px;
+}
+
+.content-section {
+    padding: 1rem;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+}
+
+.alert {
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #343a40;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+    .content-section {
+        margin-top: 20px;
+    }
+}
+
+/* Optional: Adjust floating labels */
+.form-floating>.form-control:focus~.form-label,
+.form-floating>.form-control:not(:placeholder-shown)~.form-label {
+    opacity: 1;
+    transform: scale(0.85) translateY(-1.5rem) translateX(-0.15rem);
+}

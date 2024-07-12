@@ -1,43 +1,22 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import app, db
-from datetime import datetime
-from app.forms import (LoginForm, RegistrationForm, AddStudentForm, BorrowForm,
-                       DeactivateStudentForm, UploadStudentsForm, ToggleActiveForm)
-from app.models import Student, Loan, User
+from app.forms import LoginForm, RegistrationForm, AddEmployeeForm
+# , ToggleActiveForm, AddStudentForm)
+from app.models import User, Employee
 from flask_login import current_user, login_user, logout_user, login_required
 from urllib.parse import urlsplit
 from uuid import uuid4
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash
 import os
-import csv
 from email_validator import validate_email, EmailNotValidError
+from sqlalchemy import and_
 
 
 @app.route('/')
 @app.route('/index')
 def index():
     return render_template('index.html')
-
-
-@app.route('/datetime')
-def date_time():
-    now = datetime.now()
-    return render_template('datetime.html', title='Date & Time', now=now)
-
-
-@app.route('/listStudents', methods=['GET', 'POST'])
-@login_required
-def listStudents():
-    form = ToggleActiveForm()
-    students = Student.query.all()
-    if form.validate_on_submit():
-        toggleActive = request.values.get('toggleActive')
-        if toggleActive:
-            student = Student.query.get(toggleActive)
-            student.active = not student.active
-            db.session.commit()
-        return redirect(url_for('listStudents'))
-    return render_template('listStudents.html', title='List Students', students=students, form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -67,141 +46,146 @@ def logout():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        flash(f'Registration for {form.username.data} received', 'success')
-        return redirect(url_for('index'))
+        new_user = User(username=form.username.data, email=form.email.data,
+                        password_hash=generate_password_hash(form.password.data, salt_length=32))
+        db.session.add(new_user)
+        try:
+            db.session.commit()
+            flash(f'Registration for {form.username.data} received', 'success')
+            return redirect(url_for('index'))
+        except:
+            db.session.rollback()
+            if User.query.filter_by(username=form.username.data):
+                form.username.errors.append('This username is already taken. Please choose another')
+            if User.query.filter_by(email=form.email.data):
+                form.email.errors.append('This email address is already registered. Please choose another')
+            flash(f'Registration failed', 'danger')
     return render_template('registration.html', title='Register', form=form)
 
-
-@app.route('/add_student', methods=['GET', 'POST'])
+@app.route('/employeePofile', methods=['GET'])
 @login_required
-def add_student():
-    form = AddStudentForm()
+def employeePofile():
+    employee = Employee.query.filter_by(employee_id=current_user.user_id).all()
+    return render_template('employeePofile.html', title='Employee Pofile', employees=employee)
+
+@app.route('/listAllEmployees', methods=['GET'])
+@login_required
+def listAllEmployees():
+    employees = Employee.query.all()
+    return render_template('listAllEmployees.html', title='List All Employees', employees=employees)
+
+@app.route('/admin', methods=['GET'])
+@login_required
+def admin():
+    # employee = Employee.query.filter_by(employee_id=current_user.user_id).all()
+    return render_template('admin.html', title='Admin')
+
+@app.route('/addEmployee', methods=['GET', 'POST'])
+@login_required
+def addEmployee():
+    form = AddEmployeeForm()
     if form.validate_on_submit():
-        new_student = Student(username=form.username.data, firstname=form.firstname.data,
-                              lastname=form.lastname.data, email=form.email.data)
-        db.session.add(new_student)
+        new_employee = Employee(
+            name=form.name.data,
+            email=form.email.data,
+            date_of_joining=form.date_of_joining.data,
+            current_role=form.current_role.data,
+            past_roles=form.past_roles.data,
+            skills=form.skills.data,
+            experience=float(form.experience.data),
+            educational_background=form.educational_background.data
+        )
+        db.session.add(new_employee)
         try:
             db.session.commit()
-            flash(f'New Student added: {form.username.data} received', 'success')
+            flash(f'New Employee added: {form.name.data}', 'success')
             return redirect(url_for('index'))
-        except:
+        except Exception as e:
             db.session.rollback()
-            if Student.query.filter_by(username=form.username.data).first():
-                form.username.errors.append('This username is already taken. Please choose another')
-            if Student.query.filter_by(email=form.email.data).first():
-                form.email.errors.append('This email address is already registered. Please choose another')
-    return render_template('add_student.html', title='Add Student', form=form)
+            flash(f'Failed to add Employee: {str(e)}', 'danger')
+            if Employee.query.filter_by(email=form.email.data).first():
+                form.email.errors.append('This email address is already registered. Please choose another.')
+    return render_template('addEmployee.html', title='Add Employee', form=form)
+
+# def is_valid_email(email):
+#     try:
+#         validate_email(email, check_deliverability=False)
+#     except EmailNotValidError as error:
+#         return False
+#     return True
+#
+#
+# # Attempt to remove a file but silently cancel any exceptions if anything goes wrong
+# def silent_remove(filepath):
+#     try:
+#         os.remove(filepath)
+#     except:
+#         pass
+#     return
+
+# # 2
+# @app.route('/shopping', methods=['GET', 'POST'])
+# @login_required
+# def shopping():
+#     sform = ShoppingForm()
+#     tform = BuyForm()
+#     tobuy = ToBuy.query.filter_by(user_id=current_user.user_id)
+#     bought = Bought.query.filter_by(user_id=current_user.user_id)
+#     if sform.validate_on_submit():
+#         new_tobuy = ToBuy(item=sform.item.data, user_id=current_user.user_id)
+#         db.session.add(new_tobuy)
+#         try:
+#             db.session.commit()
+#             flash(f'New Item {sform.item.data} added to to buy list', 'success')
+#             return redirect(url_for('index'))
+#         except:
+#             db.session.rollback()
+#             flash(f'Item not added. Please try again', 'danger')
+#     if tform.validate_on_submit():
+#         buyitem = request.values.get('buy')
+#         new_bought = Bought(item=buyitem, user_id=current_user.user_id)
+#         # del_tobuy = ToBuy.query.filter(and_(item=buyitem, user_id=current_user.user_id))
+#         db.session.add(new_bought)
+#         # db.session.delete(del_tobuy)
+#         db.session.commit()
+#         return redirect(url_for('shopping'))
+#     return render_template('shopping.html', title='Shopping', sform=sform, tform=tform, tobuy=tobuy, bought=bought)
 
 
-def is_valid_email(email):
-    try:
-        validate_email(email, check_deliverability=False)
-    except EmailNotValidError as error:
-        return False
-    return True
-
-
-# Attempt to remove a file but silently cancel any exceptions if anything goes wrong
-def silent_remove(filepath):
-    try:
-        os.remove(filepath)
-    except:
-        pass
-    return
-
-
-@app.route('/upload_students', methods=['GET', 'POST'])
-@login_required
-def upload_students():
-    form = UploadStudentsForm()
-    if form.validate_on_submit():
-        if form.student_file.data:
-            unique_str = str(uuid4())
-            filename = secure_filename(f'{unique_str}-{form.student_file.data.filename}')
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            form.student_file.data.save(filepath)
-            try:
-                with open(filepath, newline='') as csvfile:
-                    reader = csv.reader(csvfile)
-                    error_count = 0
-                    row = next(reader)
-                    if row != ['Username', 'Email', 'Firstname', 'Lastname']:
-                        form.student_file.errors.append(
-                            'First row of file must be a Header row containing "Username,Email,Firstname,Lastname"')
-                        raise ValueError()
-                    for idx, row in enumerate(reader):
-                        row_num = idx+2 # Spreadsheets have the first row as 0, and we skip the header
-                        if error_count > 10:
-                            form.student_file.errors.append('Too many errors found, any further errors omitted')
-                            raise ValueError()
-                        if len(row) != 4:
-                            form.student_file.errors.append(f'Row {row_num} does not have precisely 4 fields')
-                            error_count += 1
-                        if Student.query.filter_by(username=row[0]).first():
-                            form.student_file.errors.append(
-                                f'Row {row_num} has username {row[0]}, which is already in use')
-                            error_count += 1
-                        if not is_valid_email(row[1]):
-                            form.student_file.errors.append(f'Row {row_num} has an invalid email: "{row[1]}"')
-                            error_count += 1
-                        if Student.query.filter_by(email=row[1]).first():
-                            form.student_file.errors.append(
-                                f'Row {row_num} has email {row[1]}, which is already in use')
-                            error_count += 1
-                        if error_count == 0:
-                            student = Student(username=row[0], email=row[1], firstname=row[2], lastname=row[3])
-                            db.session.add(student)
-                if error_count > 0:
-                    raise ValueError
-                db.session.commit()
-                flash(f'New Students Uploaded', 'success')
-
-                return redirect(url_for('index'))
-            except:
-                flash(f'New students upload failed: '
-                      'please try again', 'danger')
-                db.session.rollback()
-            finally:
-                silent_remove(filepath)
-    return render_template('upload_students.html', title='Upload Students', form=form)
-
-
-@app.route('/borrow', methods=['GET', 'POST'])
-@login_required
-def borrow():
-    form = BorrowForm()
-    if form.validate_on_submit():
-        new_loan = Loan(device_id=form.device_id.data,
-                        student_id=form.student_id.data,
-                        borrowdatetime=datetime.now())
-
-        db.session.add(new_loan)
-        try:
-            db.session.commit()
-            flash(f'New Loan added', 'success')
-            return redirect(url_for('index'))
-        except:
-            db.session.rollback()
-    return render_template('borrow.html', title='Borrow', form=form)
-
-
-@app.route('/deactivate', methods=['GET', 'POST'])
-@login_required
-def deactivateStudent():
-    form = DeactivateStudentForm()
-    if form.validate_on_submit():
-        student = Student.query.get(form.student_id.data)
-        student.active = False
-        db.session.add(student)
-        try:
-            db.session.commit()
-            flash(f'student {student} deactivated', 'success')
-            return redirect(url_for('index'))
-        except:
-            db.session.rollback()
-    return render_template('deactivateStudent.html', title='Deactivate Student', form=form)
+# 4
+# @app.route('/upload_tobuylist', methods=['GET', 'POST'])
+# @login_required
+# def upload_tobuylist():
+#     form = UploadItemsForm()
+#     if form.validate_on_submit():
+#         if form.items_file.data:
+#             unique_str = str(uuid4())
+#             filename = secure_filename(f'{unique_str}-{form.items_file.data.filename}')
+#             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+#             form.items_file.data.save(filepath)
+#             try:
+#                 with (open(filepath, "r") as txtfile):
+#                     items = []
+#                     for line in txtfile:
+#                         line = line.strip()
+#                         items.append(line)
+#                     for i in items:
+#                         new_tobuy = ToBuy(item=i, user_id=current_user.user_id)
+#                         db.session.add(new_tobuy)
+#                 db.session.commit()
+#                 flash(f'To buy list Uploaded', 'success')
+#                 return redirect(url_for('index'))
+#             except:
+#                 flash(f'To buy list upload failed: '
+#                       'please try again', 'danger')
+#                 db.session.rollback()
+#             finally:
+#                 silent_remove(filepath)
+#     return render_template('upload_tobuylist.html', title='Upload to buy list', form=form)
 
 
 # Handler for 413 Error: "RequestEntityTooLarge". This error is caused by a file upload
