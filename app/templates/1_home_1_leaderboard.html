@@ -1,0 +1,49 @@
+{% extends "1_home.html" %}
+
+{% block profile_content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h2 class="text-center">Leaderboard</h2>
+<div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Rank</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">Skill Points</th>
+                                    <th scope="col">Achievement Badge</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for emp in top_employees %}
+                                    <tr>
+                                        <th scope="row">{{ loop.index }}</th>
+                                        <td>{{ emp.name }}</td>
+                                        <td>{{ emp.current_role }}</td>
+                                        <td>{{ emp.skill_points }}</td>
+                                        <td>
+                                            {% if emp.achievement_badge == 'Gold' %}
+                                                🥇 Gold
+                                            {% elif emp.achievement_badge == 'Silver' %}
+                                                🥈 Silver
+                                            {% elif emp.achievement_badge == 'Bronze' %}
+                                                🥉 Bronze
+                                            {% else %}
+                                                🛡️ Beginner
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

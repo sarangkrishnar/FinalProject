@@ -55,17 +55,15 @@ class AddEmployeeForm(FlaskForm):
     # achievement_badge = StringField('Achievement Badge')
     submit = SubmitField('Add Employee')
 
-    # def validate_employee_id(self, employee_id):
-    #     if Employee.query.filter_by(employee_id=employee_id.data).first():
-    #         raise ValidationError('This employee ID is already taken. Please choose another.')
-
-    # def validate_name(self, name):
-    #     if Employee.query.filter_by(name=name.data).first():
-    #         raise ValidationError('An employee with this name already exists. Please choose another.')
-
     def validate_email(self, email):
         if Employee.query.filter_by(email=email.data).first():
             raise ValidationError('This email address is already registered. Please choose another')
+
+class UploadEmployeesForm(FlaskForm):
+    employee_file = FileField('Upload the csv file with employee data', validators=[
+        DataRequired(), FileAllowed(['csv'], 'CSV files only!')
+    ])
+    submit = SubmitField('Upload')
 
 # class UploadStudentsForm(FlaskForm):
 #     student_file = FileField('New Students File', validators=[FileAllowed(['csv'])])

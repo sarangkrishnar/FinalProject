@@ -1,0 +1,30 @@
+{% extends "2_admin.html" %}
+
+{% block admin_content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-warning text-black text-center">
+                        <h3 class="card-title">Upload Employees</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {{ form.hidden_tag() }}
+                            <div class="form-group">
+                                {{ form.employee_file.label(class="form-label") }}
+                                {{ form.employee_file(class="form-control no-border") }}
+                                {% for error in form.employee_file.errors %}
+                                    <div class="alert alert-danger mt-2">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group mt-4">
+                                {{ form.submit(class="btn btn-primary") }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

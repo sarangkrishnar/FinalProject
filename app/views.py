@@ -1,6 +1,8 @@
+import csv
+from datetime import datetime
 from flask import render_template, redirect, url_for, flash, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, AddEmployeeForm
+from app.forms import LoginForm, RegistrationForm, AddEmployeeForm, UploadEmployeesForm
 # , ToggleActiveForm, AddStudentForm)
 from app.models import User, Employee
 from flask_login import current_user, login_user, logout_user, login_required
@@ -13,10 +15,18 @@ from email_validator import validate_email, EmailNotValidError
 from sqlalchemy import and_
 
 
-@app.route('/')
-@app.route('/index')
-def index():
-    return render_template('index.html')
+def update_badge():
+    employees = Employee.query.all()
+    for employee in employees:
+        if employee.skill_points > 20:
+            employee.achievement_badge = 'Gold'
+        elif 10 <= employee.skill_points <= 20:
+            employee.achievement_badge = 'Silver'
+        elif 5 <= employee.skill_points < 10:
+            employee.achievement_badge = 'Bronze'
+        else:
+            employee.achievement_badge = 'Beginner'
+        db.session.commit()
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -35,7 +45,7 @@ def login():
         if not next_page or urlsplit(next_page).netloc != '':
             next_page = url_for('index')
         return redirect(next_page)
-    return render_template('login.html', title='Sign In', form=form)
+    return render_template('0_3_login.html', title='Sign In', form=form)
 
 
 @app.route('/logout')
@@ -64,25 +74,93 @@ def register():
             if User.query.filter_by(email=form.email.data):
                 form.email.errors.append('This email address is already registered. Please choose another')
             flash(f'Registration failed', 'danger')
-    return render_template('registration.html', title='Register', form=form)
+    return render_template('0_2_registration.html', title='Register', form=form)
+
+
+@app.route('/')
+@app.route('/index')
+# @login_required
+def index():
+    update_badge()
+    employee = Employee.query.filter_by(employee_id=current_user.user_id).first()
+    top_employees = Employee.query.order_by(Employee.skill_points.desc()).limit(5).all()
+    return render_template('1_home.html', title='Home', employee=employee, top_employees=top_employees)
+
 
 @app.route('/employeePofile', methods=['GET'])
 @login_required
 def employeePofile():
-    employee = Employee.query.filter_by(employee_id=current_user.user_id).all()
-    return render_template('employeePofile.html', title='Employee Pofile', employees=employee)
+    update_badge()
+    employee = Employee.query.filter_by(employee_id=current_user.user_id).first()
+    return render_template('1_home_2_employeePofile.html', title='Employee Pofile', employee=employee)
+
+
+@app.route('/')
+@app.route('/leaderboard')
+# @login_required
+def leaderboard():
+    update_badge()
+    top_employees = Employee.query.order_by(Employee.skill_points.desc()).limit(5).all()
+    employee = Employee.query.filter_by(employee_id=current_user.user_id).first()
+    return render_template('1_home_1_leaderboard.html', title='Leaderboard', employee=employee, top_employees=top_employees)
+
+
+@app.route('/updateEmployeePofile', methods=['GET', 'POST'])
+@login_required
+def updateEmployeePofile():
+    employee = Employee.query.get_or_404(current_user.user_id)
+    if request.method == 'POST':
+        if request.form['date_of_joining']:
+            try:
+                employee.date_of_joining = datetime.strptime(request.form['date_of_joining'], '%Y-%m-%d').date()
+            except ValueError:
+                flash('Invalid date format for Date of Joining.', 'danger')
+                return redirect(url_for('updateEmployeePofile'))
+
+        if request.form['email']:
+            employee.email = request.form['email']
+
+        if request.form['current_role']:
+            employee.current_role = request.form['current_role']
+
+        if request.form['past_roles']:
+            employee.past_roles = request.form['past_roles']
+
+        if request.form['skills']:
+            employee.skills = request.form['skills']
+
+        if request.form['experience']:
+            employee.experience = request.form['experience']
+
+        if request.form['educational_background']:
+            employee.educational_background = request.form['educational_background']
+
+        if request.form['skill_points']:
+            employee.skill_points = request.form['skill_points']
+
+        if request.form['achievement_badge']:
+            employee.achievement_badge = request.form['achievement_badge']
+
+        db.session.commit()
+        flash('Your profile has been updated!', 'success')
+        return redirect(url_for('employeePofile'))
+    update_badge()
+    return render_template('2_admin_3_updateEmployeePofile.html', title='Update Profile', employee=employee)
+
 
 @app.route('/listAllEmployees', methods=['GET'])
 @login_required
 def listAllEmployees():
     employees = Employee.query.all()
-    return render_template('listAllEmployees.html', title='List All Employees', employees=employees)
+    return render_template('test_listAllEmployees.html', title='List All Employees', employees=employees)
+
 
 @app.route('/admin', methods=['GET'])
 @login_required
 def admin():
     # employee = Employee.query.filter_by(employee_id=current_user.user_id).all()
-    return render_template('admin.html', title='Admin')
+    return render_template('2_admin.html', title='Admin')
+
 
 @app.route('/addEmployee', methods=['GET', 'POST'])
 @login_required
@@ -109,7 +187,94 @@ def addEmployee():
             flash(f'Failed to add Employee: {str(e)}', 'danger')
             if Employee.query.filter_by(email=form.email.data).first():
                 form.email.errors.append('This email address is already registered. Please choose another.')
-    return render_template('addEmployee.html', title='Add Employee', form=form)
+    return render_template('2_admin_1_addEmployee.html', title='Add Employee', form=form)
+
+
+def is_valid_email(email):
+    try:
+        validate_email(email, check_deliverability=False)
+    except EmailNotValidError as error:
+        return False
+    return True
+
+
+def silent_remove(filepath):
+    try:
+        os.remove(filepath)
+    except:
+        pass
+
+
+@app.route('/bulkAddEmployee', methods=['GET', 'POST'])
+@login_required
+def bulkAddEmployee():
+    form = UploadEmployeesForm()
+    if form.validate_on_submit():
+        if form.employee_file.data:
+            unique_str = str(uuid4())
+            filename = secure_filename(f'{unique_str}-{form.employee_file.data.filename}')
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            form.employee_file.data.save(filepath)
+            try:
+                with open(filepath, newline='') as csvfile:
+                    reader = csv.reader(csvfile)
+                    error_count = 0
+                    row = next(reader)
+                    if row != ['Name', 'Email', 'Date of Joining', 'Current Role', 'Past Roles', 'Skills', 'Experience',
+                               'Educational Background', 'Skill Points', 'Achievement Badge']:
+                        form.employee_file.errors.append(
+                            'First row of file must be a Header row containing "Name, Email, Date of Joining, Current Role, Past Roles, Skills, Experience, Educational Background, Skill Points, Achievement Badge"')
+                        raise ValueError()
+                    for idx, row in enumerate(reader):
+                        row_num = idx + 2  # Spreadsheets have the first row as 0, and we skip the header
+                        if error_count > 10:
+                            form.employee_file.errors.append('Too many errors found, any further errors omitted')
+                            raise ValueError()
+                        if len(row) != 10:
+                            form.employee_file.errors.append(f'Row {row_num} does not have precisely 10 fields')
+                            error_count += 1
+                        if Employee.query.filter_by(email=row[1]).first():
+                            form.employee_file.errors.append(
+                                f'Row {row_num} has email {row[1]}, which is already in use')
+                            error_count += 1
+                        if not is_valid_email(row[1]):
+                            form.employee_file.errors.append(f'Row {row_num} has an invalid email: "{row[1]}"')
+                            error_count += 1
+                        try:
+                            # Convert date and experience to appropriate types
+                            date_of_joining = datetime.strptime(row[2], '%Y-%m-%d').date()
+                            experience = float(row[6])
+                        except ValueError as e:
+                            form.employee_file.errors.append(f'Row {row_num} has invalid data: {e}')
+                            error_count += 1
+                            continue
+
+                        if error_count == 0:
+                            employee = Employee(
+                                name=row[0],
+                                email=row[1],
+                                date_of_joining=date_of_joining,
+                                current_role=row[3],
+                                past_roles=row[4],
+                                skills=row[5],
+                                experience=experience,
+                                educational_background=row[7],
+                                skill_points=int(row[8]),
+                                achievement_badge=row[9]
+                            )
+                            db.session.add(employee)
+                if error_count > 0:
+                    raise ValueError
+                db.session.commit()
+                flash(f'New Employees Uploaded', 'success')
+                return redirect(url_for('index'))
+            except Exception as e:
+                flash(f'New employees upload failed: {e}', 'danger')
+                db.session.rollback()
+            finally:
+                silent_remove(filepath)
+    return render_template('2_admin_2_bulkAddEmployee.html', title='bulkAddEmployee', form=form)
+
 
 # def is_valid_email(email):
 #     try:

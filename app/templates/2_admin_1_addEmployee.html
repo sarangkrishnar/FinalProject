@@ -1,0 +1,100 @@
+{% extends "2_admin.html" %}
+
+{% block admin_content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-light shadow-sm">
+                <div class="card-header bg-warning text-black text-center">
+                        <h3 class="card-title">Add Employee</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="" novalidate>
+                        {{ form.hidden_tag() }}
+
+                        <!-- Personal Information Section -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">Personal Information</h5>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form.name.label(class="form-label") }}
+                                    {{ form.name(class="form-control") }}
+                                    {% for error in form.name.errors %}
+                                        <div class="text-danger">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    {{ form.email.label(class="form-label") }}
+                                    {{ form.email(class="form-control") }}
+                                    {% for error in form.email.errors %}
+                                        <div class="text-danger">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Employment Details Section -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">Employment Details</h5>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form.date_of_joining.label(class="form-label") }}
+                                    {{ form.date_of_joining(class="form-control") }}
+                                    {% for error in form.date_of_joining.errors %}
+                                        <div class="text-danger">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    {{ form.current_role.label(class="form-label") }}
+                                    {{ form.current_role(class="form-control") }}
+                                    {% for error in form.current_role.errors %}
+                                        <div class="text-danger">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skills and Experience Section -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">Skills and Experience</h5>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form.skills.label(class="form-label") }}
+                                    {{ form.skills(class="form-control") }}
+                                    {% for error in form.skills.errors %}
+                                        <div class="text-danger">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    {{ form.experience.label(class="form-label") }}
+                                    {{ form.experience(class="form-control") }}
+                                    {% for error in form.experience.errors %}
+                                        <div class="text-danger">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Educational Background Section -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">Educational Background</h5>
+                            <div class="form-group">
+                                {{ form.educational_background.label(class="form-label") }}
+                                {{ form.educational_background(class="form-control") }}
+                                {% for error in form.educational_background.errors %}
+                                    <div class="text-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center">
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

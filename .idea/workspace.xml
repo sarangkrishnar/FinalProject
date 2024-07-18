@@ -4,7 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d91cb9f7-49a6-452f-9502-e0fc28954b18" name="Changes" comment="fixed requirements" />
+    <list default="true" id="d91cb9f7-49a6-452f-9502-e0fc28954b18" name="Changes" comment="fixed requirements">
+      <change afterPath="$PROJECT_DIR$/app/templates/1_home.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/1_home_1_employeePofile.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/2_admin_1_addEmployee.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/2_admin_2_bulkAddEmployee.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/updateEmployeePofile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flaskenv" beforeDir="false" afterPath="$PROJECT_DIR$/.flaskenv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/data/data.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/app/data/data.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/stylessss.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/addEmployee.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/2_admin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/0_base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/deactivateStudent.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/deactivateStudent.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/employeePofile.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/errors/413.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/errors/413.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/leaderboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/listAllEmployees.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/test_listAllEmployees.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/old/borrow.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/old/borrow.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/old/datetime.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/old/datetime.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/registration.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/upload_employees.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/upload_employees.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -61,7 +86,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/ProjectCode/FinalProject/app/templates/old",
+    "last_opened_file_path": "D:/ProjectCode/FinalProject/app/templates",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -73,6 +98,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\ProjectCode\FinalProject\app\templates" />
       <recent name="D:\ProjectCode\FinalProject\app\templates\old" />
       <recent name="D:\ProjectCode\FinalProject\app\static" />
     </key>
@@ -124,7 +150,9 @@
       <updated>1720130082474</updated>
       <workItem from="1720130083771" duration="469000" />
       <workItem from="1720132664212" duration="3674000" />
-      <workItem from="1720562327157" duration="26062000" />
+      <workItem from="1720562327157" duration="27689000" />
+      <workItem from="1721074780447" duration="598000" />
+      <workItem from="1721237496413" duration="15098000" />
     </task>
     <task id="LOCAL-00001" summary="commit1">
       <option name="closed" value="true" />
@@ -190,7 +218,23 @@
       <option name="project" value="LOCAL" />
       <updated>1720787683005</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="fixed requirements">
+      <option name="closed" value="true" />
+      <created>1720787709998</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1720787709998</updated>
+    </task>
+    <task id="LOCAL-00010" summary="fixed requirements">
+      <option name="closed" value="true" />
+      <created>1720787722361</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1720787722361</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

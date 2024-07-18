@@ -1,0 +1,63 @@
+{% extends "1_home.html" %}
+
+{% block profile_content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header outline-dark text-black text-center">
+                    <h3>Update Profile for {{ employee.name }}</h3>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('updateEmployeePofile') }}" method="POST">
+                        <div class="form-group">
+                            <label for="employee_id"><strong>Employee ID:</strong></label>
+                            <input type="text" id="employee_id" name="employee_id" class="form-control" value="{{ employee.employee_id }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_of_joining"><strong>Date of Joining:</strong></label>
+                            <input type="date" id="date_of_joining" name="date_of_joining" class="form-control" value="{{ employee.date_of_joining }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><strong>Email:</strong></label>
+                            <input type="email" id="email" name="email" class="form-control" value="{{ employee.email }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="current_role"><strong>Current Role:</strong></label>
+                            <input type="text" id="current_role" name="current_role" class="form-control" value="{{ employee.current_role }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="past_roles"><strong>Past Roles:</strong></label>
+                            <textarea id="past_roles" name="past_roles" class="form-control">{{ employee.past_roles }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="skills"><strong>Skills:</strong></label>
+                            <textarea id="skills" name="skills" class="form-control">{{ employee.skills }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="experience"><strong>Experience:</strong></label>
+                            <input type="text" id="experience" name="experience" class="form-control" value="{{ employee.experience }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="educational_background"><strong>Educational Background:</strong></label>
+                            <input type="text" id="educational_background" name="educational_background" class="form-control" value="{{ employee.educational_background }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="skill_points"><strong>Skill Points:</strong></label>
+                            <input type="text" id="skill_points" name="skill_points" class="form-control" value="{{ employee.skill_points }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="achievement_badge"><strong>Achievement Badge:</strong></label>
+                            <input type="text" id="achievement_badge" name="achievement_badge" class="form-control" value="{{ employee.achievement_badge }}">
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <a href="{{ url_for('employeePofile') }}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
