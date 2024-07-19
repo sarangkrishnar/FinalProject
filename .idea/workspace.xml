@@ -4,30 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d91cb9f7-49a6-452f-9502-e0fc28954b18" name="Changes" comment="fixed requirements">
-      <change afterPath="$PROJECT_DIR$/app/templates/1_home.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/1_home_1_employeePofile.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/2_admin_1_addEmployee.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/2_admin_2_bulkAddEmployee.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/updateEmployeePofile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flaskenv" beforeDir="false" afterPath="$PROJECT_DIR$/.flaskenv" afterDir="false" />
+    <list default="true" id="d91cb9f7-49a6-452f-9502-e0fc28954b18" name="Changes" comment="added badges, display leaderboard, added bulk upload">
+      <change afterPath="$PROJECT_DIR$/app/templates/1_home_2_employeeProfile.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/data/data.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/app/data/data.sqlite" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/stylessss.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/addEmployee.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/2_admin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/0_base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/deactivateStudent.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/deactivateStudent.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/employeePofile.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/errors/413.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/errors/413.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/leaderboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/listAllEmployees.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/test_listAllEmployees.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/old/borrow.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/old/borrow.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/old/datetime.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/old/datetime.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/registration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/upload_employees.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/upload_employees.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/0_1_base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/0_1_base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/1_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/1_home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/1_home_1_leaderboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/1_home_1_leaderboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/1_home_2_employeePofile.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/2_admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/2_admin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/2_admin_1_addEmployee.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/2_admin_1_addEmployee.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/2_admin_2_bulkAddEmployee.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/2_admin_2_bulkAddEmployee.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/2_admin_3_updateEmployeePofile.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/1_home_3_updateEmployeeProfile.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -152,7 +141,7 @@
       <workItem from="1720132664212" duration="3674000" />
       <workItem from="1720562327157" duration="27689000" />
       <workItem from="1721074780447" duration="598000" />
-      <workItem from="1721237496413" duration="15098000" />
+      <workItem from="1721237496413" duration="19369000" />
     </task>
     <task id="LOCAL-00001" summary="commit1">
       <option name="closed" value="true" />
@@ -234,7 +223,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720787722361</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="added badges, display leaderboard, added bulk upload">
+      <option name="closed" value="true" />
+      <created>1721344998653</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1721344998653</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -257,7 +254,18 @@
     <MESSAGE value="added venv" />
     <MESSAGE value="added requirements" />
     <MESSAGE value="fixed requirements" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed requirements" />
+    <MESSAGE value="added badges, display leaderboard, added bulk upload" />
+    <option name="LAST_COMMIT_MESSAGE" value="added badges, display leaderboard, added bulk upload" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app/forms.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/FinalProject$views.coverage" NAME="views Coverage Results" MODIFIED="1720130536420" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />

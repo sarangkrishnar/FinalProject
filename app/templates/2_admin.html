@@ -7,8 +7,8 @@
 
     <div class="text-center mt-4">
         {% if current_user.is_authenticated %}
-            <a class="btn btn-outline-warning" href="{{ url_for('addEmployee') }}">Admin Add Employee</a>
-            <a class="btn btn-outline-warning" href="{{ url_for('bulkAddEmployee') }}">Admin Bulk Upload</a>
+            <a class="btn {% if active_adminpage == 'addEmployee' %}btn-warning{% else %}btn-outline-warning{% endif %}"  href="{{ url_for('addEmployee') }}">Admin Add Employee</a>
+            <a class="btn {% if active_adminpage == 'bulkAddEmployee' %}btn-warning{% else %}btn-outline-warning{% endif %}" href="{{ url_for('bulkAddEmployee') }}">Admin Bulk Upload</a>
             <a class="btn btn-outline-warning">Admin Change Role</a>
             <a class="btn btn-outline-danger" href="{{ url_for('logout') }}">Logout</a>
         {% else %}
@@ -22,5 +22,3 @@
         </div>
     </div>
 {% endblock %}
-
-{#href="{{ url_for('addEmployee') }}"#}

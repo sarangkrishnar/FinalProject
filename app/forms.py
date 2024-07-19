@@ -1,5 +1,4 @@
 from datetime import date
-
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, BooleanField
@@ -25,22 +24,6 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
 
 
-# class AddStudentForm(FlaskForm):
-#     username = StringField('Username', validators=[DataRequired()])
-#     firstname = StringField('Firstname')
-#     lastname = StringField('Lastname', validators=[DataRequired()])
-#     email = StringField('Email', validators=[DataRequired(), Email()])
-#     submit = SubmitField('Add Student')
-#
-#     def validate_username(self, username):
-#         if Student.query.filter_by(username=username.data).first():
-#             raise ValidationError('This username is already taken. Please choose another')
-#
-#     def validate_email(self, email):
-#         if Student.query.filter_by(email=email.data).first():
-#             raise ValidationError('This email address is already registered. Please choose another')
-
-
 class AddEmployeeForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     # employee_id = IntegerField('Employee ID', validators=[DataRequired()])
@@ -58,6 +41,7 @@ class AddEmployeeForm(FlaskForm):
     def validate_email(self, email):
         if Employee.query.filter_by(email=email.data).first():
             raise ValidationError('This email address is already registered. Please choose another')
+
 
 class UploadEmployeesForm(FlaskForm):
     employee_file = FileField('Upload the csv file with employee data', validators=[

@@ -1,0 +1,83 @@
+{% extends "1_home.html" %}
+
+{% block profile_content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-3">
+                <div class="card-header bg-info text-center">
+                    <h3>Update Profile for {{ employee.name }}</h3>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('updateEmployeeProfile') }}" method="POST">
+                        <div class="mb-4">
+                            <h5 class="mb-3">Basic Information</h5>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="employee_id" class="form-label"><strong>Employee ID:</strong></label>
+                                    <input type="text" id="employee_id" name="employee_id" class="form-control" value="{{ employee.employee_id }}" readonly>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="date_of_joining" class="form-label"><strong>Date of Joining:</strong></label>
+                                    <input type="date" id="date_of_joining" name="date_of_joining" class="form-control" value="{{ employee.date_of_joining }}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label"><strong>Email:</strong></label>
+                                    <input type="email" id="email" name="email" class="form-control" value="{{ employee.email }}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="current_role" class="form-label"><strong>Current Role:</strong></label>
+                                    <input type="text" id="current_role" name="current_role" class="form-control" value="{{ employee.current_role }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="mb-3">Experience and Skills</h5>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="experience" class="form-label"><strong>Experience:</strong></label>
+                                    <input type="text" id="experience" name="experience" class="form-control" value="{{ employee.experience }}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="skills" class="form-label"><strong>Skills:</strong></label>
+                                    <textarea id="skills" name="skills" class="form-control">{{ employee.skills }}</textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="past_roles" class="form-label"><strong>Past Roles:</strong></label>
+                                    <textarea id="past_roles" name="past_roles" class="form-control">{{ employee.past_roles }}</textarea>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="skill_points" class="form-label"><strong>Skill Points:</strong></label>
+                                    <input type="text" id="skill_points" name="skill_points" class="form-control" value="{{ employee.skill_points }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="mb-3">Education and Achievements</h5>
+                            <div class="form-group mb-3">
+                                <label for="educational_background" class="form-label"><strong>Educational Background:</strong></label>
+                                <input type="text" id="educational_background" name="educational_background" class="form-control" value="{{ employee.educational_background }}">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="achievement_badge" class="form-label"><strong>Achievement Badge:</strong></label>
+                                <input type="text" id="achievement_badge" name="achievement_badge" class="form-control" value="{{ employee.achievement_badge }}">
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <a href="{{ url_for('employeeprofile') }}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

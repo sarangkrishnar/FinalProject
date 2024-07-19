@@ -3,7 +3,6 @@ from datetime import datetime
 from flask import render_template, redirect, url_for, flash, request
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, AddEmployeeForm, UploadEmployeesForm
-# , ToggleActiveForm, AddStudentForm)
 from app.models import User, Employee
 from flask_login import current_user, login_user, logout_user, login_required
 from urllib.parse import urlsplit
@@ -12,10 +11,9 @@ from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
 import os
 from email_validator import validate_email, EmailNotValidError
-from sqlalchemy import and_
 
 
-def update_badge():
+def updateBadge():
     employees = Employee.query.all()
     for employee in employees:
         if employee.skill_points > 20:
@@ -29,35 +27,25 @@ def update_badge():
         db.session.commit()
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password', 'danger')
-            return redirect(url_for('login'))
-        login_user(user, remember=form.remember_me.data)
-        flash(f'Login for {form.username.data}', 'success')
-        next_page = request.args.get('next')
-        if not next_page or urlsplit(next_page).netloc != '':
-            next_page = url_for('index')
-        return redirect(next_page)
-    return render_template('0_3_login.html', title='Sign In', form=form)
+def isValidEmail(email):
+    try:
+        validate_email(email, check_deliverability=False)
+    except EmailNotValidError as error:
+        return False
+    return True
 
 
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('index'))
+def silentRemove(filepath):
+    try:
+        os.remove(filepath)
+    except:
+        pass
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
         new_user = User(username=form.username.data, email=form.email.data,
@@ -66,7 +54,7 @@ def register():
         try:
             db.session.commit()
             flash(f'Registration for {form.username.data} received', 'success')
-            return redirect(url_for('index'))
+            return redirect(url_for('home'))
         except:
             db.session.rollback()
             if User.query.filter_by(username=form.username.data):
@@ -77,37 +65,63 @@ def register():
     return render_template('0_2_registration.html', title='Register', form=form)
 
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password', 'danger')
+            return redirect(url_for('login'))
+        login_user(user, remember=form.remember_me.data)
+        flash(f'Login for {form.username.data}', 'success')
+        next_page = request.args.get('next')
+        if not next_page or urlsplit(next_page).netloc != '':
+            next_page = url_for('home')
+        return redirect(next_page)
+    return render_template('0_3_login.html', title='Sign In', form=form)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+
 @app.route('/')
-@app.route('/index')
-# @login_required
-def index():
-    update_badge()
+@app.route('/home')
+@login_required
+def home():
+    updateBadge()
     employee = Employee.query.filter_by(employee_id=current_user.user_id).first()
     top_employees = Employee.query.order_by(Employee.skill_points.desc()).limit(5).all()
     return render_template('1_home.html', title='Home', employee=employee, top_employees=top_employees)
 
 
-@app.route('/employeePofile', methods=['GET'])
-@login_required
-def employeePofile():
-    update_badge()
-    employee = Employee.query.filter_by(employee_id=current_user.user_id).first()
-    return render_template('1_home_2_employeePofile.html', title='Employee Pofile', employee=employee)
-
-
 @app.route('/')
 @app.route('/leaderboard')
-# @login_required
+@login_required
 def leaderboard():
-    update_badge()
+    updateBadge()
     top_employees = Employee.query.order_by(Employee.skill_points.desc()).limit(5).all()
     employee = Employee.query.filter_by(employee_id=current_user.user_id).first()
-    return render_template('1_home_1_leaderboard.html', title='Leaderboard', employee=employee, top_employees=top_employees)
+    return render_template('1_home_1_leaderboard.html', title='Leaderboard', employee=employee,
+                           top_employees=top_employees)
 
 
-@app.route('/updateEmployeePofile', methods=['GET', 'POST'])
+@app.route('/employeeProfile', methods=['GET'])
 @login_required
-def updateEmployeePofile():
+def employeeProfile():
+    updateBadge()
+    employee = Employee.query.filter_by(employee_id=current_user.user_id).first()
+    return render_template('1_home_2_employeeProfile.html', title='Employee Pofile', employee=employee)
+
+
+@app.route('/updateEmployeeProfile', methods=['GET', 'POST'])
+@login_required
+def updateEmployeeProfile():
     employee = Employee.query.get_or_404(current_user.user_id)
     if request.method == 'POST':
         if request.form['date_of_joining']:
@@ -115,44 +129,28 @@ def updateEmployeePofile():
                 employee.date_of_joining = datetime.strptime(request.form['date_of_joining'], '%Y-%m-%d').date()
             except ValueError:
                 flash('Invalid date format for Date of Joining.', 'danger')
-                return redirect(url_for('updateEmployeePofile'))
-
+                return redirect(url_for('updateEmployeeProfile'))
         if request.form['email']:
             employee.email = request.form['email']
-
         if request.form['current_role']:
             employee.current_role = request.form['current_role']
-
         if request.form['past_roles']:
             employee.past_roles = request.form['past_roles']
-
         if request.form['skills']:
             employee.skills = request.form['skills']
-
         if request.form['experience']:
             employee.experience = request.form['experience']
-
         if request.form['educational_background']:
             employee.educational_background = request.form['educational_background']
-
         if request.form['skill_points']:
             employee.skill_points = request.form['skill_points']
-
         if request.form['achievement_badge']:
             employee.achievement_badge = request.form['achievement_badge']
-
         db.session.commit()
         flash('Your profile has been updated!', 'success')
         return redirect(url_for('employeePofile'))
-    update_badge()
-    return render_template('2_admin_3_updateEmployeePofile.html', title='Update Profile', employee=employee)
-
-
-@app.route('/listAllEmployees', methods=['GET'])
-@login_required
-def listAllEmployees():
-    employees = Employee.query.all()
-    return render_template('test_listAllEmployees.html', title='List All Employees', employees=employees)
+    updateBadge()
+    return render_template('1_home_3_updateEmployeeProfile.html', title='Update Profile', employee=employee)
 
 
 @app.route('/admin', methods=['GET'])
@@ -181,28 +179,13 @@ def addEmployee():
         try:
             db.session.commit()
             flash(f'New Employee added: {form.name.data}', 'success')
-            return redirect(url_for('index'))
+            return redirect(url_for('home'))
         except Exception as e:
             db.session.rollback()
             flash(f'Failed to add Employee: {str(e)}', 'danger')
             if Employee.query.filter_by(email=form.email.data).first():
                 form.email.errors.append('This email address is already registered. Please choose another.')
     return render_template('2_admin_1_addEmployee.html', title='Add Employee', form=form)
-
-
-def is_valid_email(email):
-    try:
-        validate_email(email, check_deliverability=False)
-    except EmailNotValidError as error:
-        return False
-    return True
-
-
-def silent_remove(filepath):
-    try:
-        os.remove(filepath)
-    except:
-        pass
 
 
 @app.route('/bulkAddEmployee', methods=['GET', 'POST'])
@@ -237,11 +220,10 @@ def bulkAddEmployee():
                             form.employee_file.errors.append(
                                 f'Row {row_num} has email {row[1]}, which is already in use')
                             error_count += 1
-                        if not is_valid_email(row[1]):
+                        if not isValidEmail(row[1]):
                             form.employee_file.errors.append(f'Row {row_num} has an invalid email: "{row[1]}"')
                             error_count += 1
                         try:
-                            # Convert date and experience to appropriate types
                             date_of_joining = datetime.strptime(row[2], '%Y-%m-%d').date()
                             experience = float(row[6])
                         except ValueError as e:
@@ -267,30 +249,21 @@ def bulkAddEmployee():
                     raise ValueError
                 db.session.commit()
                 flash(f'New Employees Uploaded', 'success')
-                return redirect(url_for('index'))
+                return redirect(url_for('home'))
             except Exception as e:
                 flash(f'New employees upload failed: {e}', 'danger')
                 db.session.rollback()
             finally:
-                silent_remove(filepath)
-    return render_template('2_admin_2_bulkAddEmployee.html', title='bulkAddEmployee', form=form)
+                silentRemove(filepath)
+    return render_template('2_admin_2_bulkAddEmployee.html', title='Bulk Add Employee', form=form)
 
 
-# def is_valid_email(email):
-#     try:
-#         validate_email(email, check_deliverability=False)
-#     except EmailNotValidError as error:
-#         return False
-#     return True
-#
-#
-# # Attempt to remove a file but silently cancel any exceptions if anything goes wrong
-# def silent_remove(filepath):
-#     try:
-#         os.remove(filepath)
-#     except:
-#         pass
-#     return
+@app.route('/listAllEmployees', methods=['GET'])
+@login_required
+def listAllEmployees():
+    employees = Employee.query.all()
+    return render_template('test_listAllEmployees.html', title='List All Employees', employees=employees)
+
 
 # # 2
 # @app.route('/shopping', methods=['GET', 'POST'])
@@ -306,7 +279,7 @@ def bulkAddEmployee():
 #         try:
 #             db.session.commit()
 #             flash(f'New Item {sform.item.data} added to to buy list', 'success')
-#             return redirect(url_for('index'))
+#             return redirect(url_for('home'))
 #         except:
 #             db.session.rollback()
 #             flash(f'Item not added. Please try again', 'danger')
@@ -343,7 +316,7 @@ def bulkAddEmployee():
 #                         db.session.add(new_tobuy)
 #                 db.session.commit()
 #                 flash(f'To buy list Uploaded', 'success')
-#                 return redirect(url_for('index'))
+#                 return redirect(url_for('home'))
 #             except:
 #                 flash(f'To buy list upload failed: '
 #                       'please try again', 'danger')
