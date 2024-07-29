@@ -49,54 +49,35 @@ class UploadEmployeesForm(FlaskForm):
     ])
     submit = SubmitField('Upload')
 
-# class UploadStudentsForm(FlaskForm):
-#     student_file = FileField('New Students File', validators=[FileAllowed(['csv'])])
-#     submit = SubmitField('Upload')
+
+class SkillAssessmentForm(FlaskForm):
+    # Self-Assessment Fields
+    self_assessed_skills = TextAreaField('Self-Assessed Skills', validators=[DataRequired()])
+    self_assessment_rating = IntegerField('Self-Assessment Rating (1-10)', validators=[DataRequired()])
+    new_competencies = TextAreaField('New Competencies of Interest')
+
+    # Supervisor Assessment Fields
+    supervisor_assessed_skills = TextAreaField('Skills Assessed by Supervisor', validators=[DataRequired()])
+    supervisor_rating = IntegerField('Supervisor Rating (1-10)', validators=[DataRequired()])
+    future_skills = TextAreaField('Skills Suggested for Future Development')
+
+    submit = SubmitField('Submit Assessment')
+
+    def validate_self_assessment_rating(self, self_assessment_rating):
+        if self_assessment_rating.data < 1 or self_assessment_rating.data > 10:
+            raise ValidationError('Self-Assessment Rating must be between 1 and 10.')
+
+    def validate_supervisor_rating(self, supervisor_rating):
+        if supervisor_rating.data < 1 or supervisor_rating.data > 10:
+            raise ValidationError('Supervisor Rating must be between 1 and 10.')
 
 
-# class BorrowForm(FlaskForm):
-#     student_id = StringField('Student ID', validators=[DataRequired()])
-#     device_id = StringField('Device ID', validators=[DataRequired()])
-#     submit = SubmitField('Borrow Device')
-#
-#     def validate_student_id(self, student_id):
-#         if not student_id.data.isnumeric():
-#             raise ValidationError('This must be a positive integer')
-#         student = Student.query.get(student_id.data)
-#         if not (student):
-#             raise ValidationError('There is no student with this id in the system')
-#         if not student.active:
-#             raise ValidationError('This student has been dactivated and cannot borrow devices')
-#         if Loan.query.filter(
-#                     (Loan.student_id == student_id.data)
-#                     &
-#                     # (Loan.returndatetime.is_(None))
-#                     (Loan.returndatetime.is_(None))
-#                 ).first():
-#             raise ValidationError('This student cannot borrow another item until the previous loan has been returned')
-#
-#     def validate_device_id(self, device_id):
-#         if not device_id.data.isnumeric():
-#             raise ValidationError('This must be a positive integer')
-#         if Loan.query.filter(
-#                     (Loan.device_id == device_id.data)
-#                     &
-#                     (Loan.returndatetime.is_(None))
-#                 ).first():
-#             raise ValidationError('This device cannot be borrowed as it is currently on loan')
-#
-# class DeactivateStudentForm(FlaskForm):
-#     student_id = StringField('Student ID', validators=[DataRequired()])
-#     submit = SubmitField('Deactivate Student')
-#
-#     def validate_student_id(self, student_id):
-#         if not student_id.data.isnumeric():
-#             raise ValidationError('This must be a positive integer')
-#         student = Student.query.get(student_id.data)
-#         if not student:
-#             raise ValidationError('There is no student with this id in the system')
-#         if not student.active:
-#             raise ValidationError('This student has already been deactivated')
-#
-# class ToggleActiveForm(FlaskForm):
-#     submit = SubmitField('Toggle Active')
+class GoalSettingForm(FlaskForm):
+    # Fields for Employee Goal Setting
+    goals = TextAreaField('Goals', validators=[DataRequired()])
+    kpis = TextAreaField('Key Performance Indicators (KPIs)', validators=[DataRequired()])
+
+    # Field for Manager Feedback
+    feedback = TextAreaField('Feedback on KPIs')
+
+    submit = SubmitField('Submit')

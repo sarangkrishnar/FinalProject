@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap');
+
+body {
+    font-family: 'Raleway', sans-serif;
+    background-color: #f8f9fa;
+    font-size: 13px; /* Reduced font size for body text */
+}
+
+h1 {
+    font-size: 2rem; /* Keep font size for h1 as it is */
+    color: #343a40;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.25rem; /* Reduced from 1.5rem */
+}
+
+h3 {
+    font-size: 1rem; /* New style for h3, if used */
+}
+
+h5 {
+    font-size: 1rem; /* New style for h3, if used */
+}
+
+.navbar {
+    padding: 0.5rem 1rem;
+}
+
+.navbar-nav .nav-link {
+    padding: 0.5rem 1rem;
+    font-size: 13px; /* Reduced font size for nav links */
+}
+
+.container {
+    max-width: 960px;
+}
+
+.content-section {
+    padding: 1rem;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+}
+
+.custom-alert {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
+    max-width: 80%;
+    font-size: 13px; /* Reduced font size for custom alerts */
+}
+
+.alert {
+    margin-bottom: 1rem;
+    font-size: 13px; /* Reduced font size for standard alerts */
+}
+
+/* Table Styles */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+.table th,
+.table td {
+    text-align: center; /* Center-align table headers and cells */
+    font-size: 13px; /* Reduced font size for table content */
+}
+
+.table thead th {
+    text-align: center; /* Center-align table header text */
+}
+
+.table tbody td {
+    text-align: center; /* Center-align table body text */
+}
+
+@media (max-width: 767px) {
+    .content-section {
+        margin-top: 20px;
+    }
+}
+
+.badge-image {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+/* Optional: Adjust floating labels */
+.form-floating>.form-control:focus~.form-label,
+.form-floating>.form-control:not(:placeholder-shown)~.form-label {
+    opacity: 1;
+    transform: scale(0.85) translateY(-1.5rem) translateX(-0.15rem);
+}

@@ -2,11 +2,13 @@
 
 {% block content %}
     <div class="text-center mt-5">
-        <h1>Smart Employee Appraisal System</h1>
+        <h1><strong>Smart Employee Appraisal System</strong></h1>
     </div>
     <div class="text-center mt-4">
         {% if current_user.is_authenticated %}
-            <h2>{{ employee.name }}, Skill score {{ employee.skill_points }} &
+            <h1>Hi {{ employee.name }}!
+{#                <br>Your skill score is {{ employee.skill_points }}#}
+                <br>Congrats for the
                 {% if employee.achievement_badge == 'Gold' %}
                     <span>🥇 Gold</span>
                 {% elif employee.achievement_badge == 'Silver' %}
@@ -16,14 +18,14 @@
                 {% else %}
                     <span>🛡️ Beginner</span>
                 {% endif %}
-                badged!
-            </h2>
+                badge
+            </h1>
             <br>
-            <a class="btn {% if active_page == 'leaderboard' %}btn-info{% else %}btn-outline-dark{% endif %}" href="{{ url_for('leaderboard') }}">Leaderboard</a>
-            <a class="btn {% if active_page == 'employeeProfile' %}btn-info{% else %}btn-outline-dark{% endif %}" href="{{ url_for('employeeProfile') }}">Employee Profile</a>
-            <a class="btn btn-outline-dark">Skill Assessment</a>
-            <a class="btn btn-outline-dark">Goal Setting</a>
-            <a class="btn btn-outline-dark">Recommend Development Plan</a>
+            <a class="btn {% if active_page == 'leaderboard' %}btn-info text-white{% else %}btn-outline-info{% endif %}" href="{{ url_for('leaderboard') }}">Leaderboard</a>
+            <a class="btn {% if active_page == 'employeeProfile' %}btn-info text-white{% else %}btn-outline-info{% endif %}" href="{{ url_for('employeeProfile') }}">Employee Profile</a>
+            <a class="btn {% if active_page == 'skillAssessment' %}btn-info text-white{% else %}btn-outline-info{% endif %}" href="{{ url_for('skillAssessment') }}">Skill Assessment</a>
+            <a class="btn {% if active_page == 'goalSetting' %}btn-info text-white{% else %}btn-outline-info{% endif %}" href="{{ url_for('goalSetting') }}">Goal Setting</a>
+            <a class="btn {% if active_page == 'developmentPlan' %}btn-info text-white{% else %}btn-outline-info{% endif %}" href="{{ url_for('developmentPlan') }}">Recommend Development Plan</a>
             <a class="btn btn-outline-danger" href="{{ url_for('logout') }}">Logout</a>
         {% else %}
             <a class="btn btn-primary btn-lg" href="{{ url_for('login') }}">Login</a>

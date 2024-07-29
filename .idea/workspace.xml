@@ -5,18 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d91cb9f7-49a6-452f-9502-e0fc28954b18" name="Changes" comment="added badges, display leaderboard, added bulk upload">
-      <change afterPath="$PROJECT_DIR$/app/templates/1_home_2_employeeProfile.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/css/stylessss.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/0_1_base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/0_1_base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/1_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/1_home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/1_home_1_leaderboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/1_home_1_leaderboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/1_home_2_employeePofile.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/2_admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/2_admin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/1_home_2_employeeProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/1_home_2_employeeProfile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/1_home_3_updateEmployeeProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/1_home_3_updateEmployeeProfile.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/2_admin_1_addEmployee.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/2_admin_1_addEmployee.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/2_admin_2_bulkAddEmployee.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/2_admin_2_bulkAddEmployee.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/2_admin_3_updateEmployeePofile.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/1_home_3_updateEmployeeProfile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/deactivateStudent.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/old/deactivateStudent.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,24 +66,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Python.views.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/ProjectCode/FinalProject/app/templates",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Python.views.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/ProjectCode/FinalProject/app/templates&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\ProjectCode\FinalProject\app\templates" />
@@ -92,9 +91,9 @@
       <recent name="D:\ProjectCode\FinalProject\app\static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\ProjectCode\FinalProject\app\templates\old" />
       <recent name="D:\ProjectCode\FinalProject\app\templates" />
       <recent name="D:\ProjectCode\FinalProject\app\static\images" />
-      <recent name="D:\ProjectCode\FinalProject\app\templates\old" />
     </key>
   </component>
   <component name="RunManager">
@@ -142,6 +141,10 @@
       <workItem from="1720562327157" duration="27689000" />
       <workItem from="1721074780447" duration="598000" />
       <workItem from="1721237496413" duration="19369000" />
+      <workItem from="1721865338625" duration="11343000" />
+      <workItem from="1721921557916" duration="2615000" />
+      <workItem from="1722117246579" duration="599000" />
+      <workItem from="1722192047818" duration="1434000" />
     </task>
     <task id="LOCAL-00001" summary="commit1">
       <option name="closed" value="true" />

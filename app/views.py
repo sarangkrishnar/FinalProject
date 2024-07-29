@@ -2,7 +2,8 @@ import csv
 from datetime import datetime
 from flask import render_template, redirect, url_for, flash, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, AddEmployeeForm, UploadEmployeesForm
+from app.forms import LoginForm, RegistrationForm, AddEmployeeForm, UploadEmployeesForm, SkillAssessmentForm, \
+    GoalSettingForm
 from app.models import User, Employee
 from flask_login import current_user, login_user, logout_user, login_required
 from urllib.parse import urlsplit
@@ -76,12 +77,12 @@ def login():
             flash('Invalid username or password', 'danger')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        flash(f'Login for {form.username.data}', 'success')
         next_page = request.args.get('next')
         if not next_page or urlsplit(next_page).netloc != '':
             next_page = url_for('home')
         return redirect(next_page)
     return render_template('0_3_login.html', title='Sign In', form=form)
+
 
 
 @app.route('/logout')
@@ -151,6 +152,71 @@ def updateEmployeeProfile():
         return redirect(url_for('employeePofile'))
     updateBadge()
     return render_template('1_home_3_updateEmployeeProfile.html', title='Update Profile', employee=employee)
+
+
+@app.route('/skillAssessment', methods=['GET', 'POST'])
+@login_required
+def skillAssessment():
+    employee = Employee.query.get_or_404(current_user.user_id)
+    form = SkillAssessmentForm()
+    if form.validate_on_submit():
+        if form.self_assessed_skills.data or form.new_competencies.data:
+            flash('Employee self-assessment has been saved.', 'success')
+        if form.supervisor_assessed_skills.data or form.supervisor_rating.data or form.future_skills.data:
+            flash('Supervisor assessment has been saved.', 'success')
+        return redirect(url_for('skillAssessment'))
+    return render_template('1_home_4_skillAssessment.html', title='Skill Assessment', form=form, employee=employee)
+
+
+@app.route('/goalSetting', methods=['GET', 'POST'])
+@login_required
+def goalSetting():
+    employee = Employee.query.get_or_404(current_user.user_id)
+    form = GoalSettingForm()
+    if form.validate_on_submit():
+        flash('Goals and KPIs have been submitted successfully!', 'success')
+        return redirect(url_for('home'))  # Redirect to a relevant page
+    return render_template('1_home_5_goalSetting.html', form=form, title='Goal Setting', employee=employee)
+
+
+class DevelopmentPlanForm:
+    pass
+
+
+@app.route('/developmentPlan', methods=['GET', 'POST'])
+@login_required
+def developmentPlan():
+    employee = Employee.query.get_or_404(current_user.user_id)
+    plan = """
+1. Development Goals
+
+Goal 1: Enhance Leadership Skills
+
+Objective: Prepare Manju for potential leadership roles within the data science team.
+
+Actions:
+- Enroll in a Leadership Training Program.
+- Attend workshops or seminars on management and team leadership.
+- Mentor junior data scientists and lead internal projects.
+
+Timeline: 6 months
+
+Measurement: Successful completion of training programs and positive feedback from team members.
+
+Goal 2: Advance Expertise in Machine Learning and AI
+
+Objective: Deepen knowledge and skills in machine learning and artificial intelligence.
+
+Actions:
+- Complete advanced courses in machine learning and AI (e.g., deep learning, reinforcement learning).
+- Work on complex AI projects and case studies.
+- Contribute to research papers or industry publications.
+
+Timeline: 1 year
+
+Measurement: Certification in advanced machine learning courses and successful delivery of AI projects.
+    """
+    return render_template('1_home_6_developmentPlan.html', title='Development Plan', employee=employee, plan=plan)
 
 
 @app.route('/admin', methods=['GET'])
@@ -259,7 +325,6 @@ def bulkAddEmployee():
 
 
 @app.route('/listAllEmployees', methods=['GET'])
-@login_required
 def listAllEmployees():
     employees = Employee.query.all()
     return render_template('test_listAllEmployees.html', title='List All Employees', employees=employees)
